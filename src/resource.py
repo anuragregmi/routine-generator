@@ -37,6 +37,9 @@ class Timing:
             datetime.time.fromisoformat(self.end)
         )
 
+    def __eq__(self, o: 'Timing') -> bool:
+        return self.start_datetime == o.start_datetime and self.end_datetime == o.end_datetime
+
     def __gt__(self, o: 'Timing') -> bool:
         return self.start_datetime > o.start_datetime
 
@@ -51,6 +54,14 @@ class Subject:
     Attributes:
         name: Name of subject
     """
+    name: str
+
+    def __str__(self):
+        return self.name
+
+
+@dataclass(frozen=True)
+class Class:
     name: str
 
     def __str__(self):
@@ -100,6 +111,12 @@ class Teacher:
 
 
 @dataclass(frozen=True)
+class ClassPeriod:
+    clas: Class
+    period: Timing
+
+
+@dataclass(frozen=True)
 class TeacherAssignment:
     """Teacher assigned to subject and class
 
@@ -109,7 +126,7 @@ class TeacherAssignment:
         period_per_week: number of periods per week
     """
 
-    # class: Class
+    clas: Class
     teacher: Teacher
     subject: Subject
     period_per_week: int
@@ -130,20 +147,20 @@ class Routine(MutableMapping):
     """
 
     def __init__(self, *args, **kwargs) -> None:
-        self.store: Dict[Timing, TeacherAssignment] = dict()
+        self.store: Dict[ClassPeriod, TeacherAssignment] = dict()
         self.teacher_booking: Dict[Teacher, List[Timing]] = dict()
         self.store.update(dict(*args, **kwargs))
 
-    def __getitem__(self, key: Timing) -> Union[TeacherAssignment, None]:
+    def __getitem__(self, key: ClassPeriod) -> Union[TeacherAssignment, None]:
         return self.store[key]
 
-    def __setitem__(self, key: Timing, value: Union[TeacherAssignment, None]) -> None:
+    def __setitem__(self, key: ClassPeriod, value: Union[TeacherAssignment, None]) -> None:
         if value is not None:
             self.teacher_booking[value.teacher] = self.teacher_booking.get(
-                value.teacher, []) + [key]
+                value.teacher, []) + [key.period]
         self.store[key] = value
 
-    def __delitem__(self, key: Timing) -> None:
+    def __delitem__(self, key: ClassPeriod) -> None:
         del self.store[key]
 
     def __iter__(self) -> Iterator:
@@ -165,12 +182,12 @@ class Routine(MutableMapping):
 
     def __str__(self):
         daywise: itertools.groupby = itertools.groupby(
-            sorted(self.keys(), key=lambda x: x.day), key=lambda x: x.day)
+            sorted(self.keys(), key=lambda x: x.period.day), key=lambda x: x.period.day)
         output: List[str] = []
 
         for day, periods_ in daywise:
             periods = list(periods_)
-            string = "%-5s" + ("%-50s\t " * len(periods))
+            string = "%-5s |" + ("%-50s\t|" * len(periods))
             output.append(
                 string % tuple(
                     [str(day)]

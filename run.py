@@ -2,7 +2,7 @@ import dataclasses
 from typing import List
 
 from src.utils import get_routines
-from src.resource import Subject, Teacher, TeacherAssignment, Timing
+from src.resource import Class, ClassPeriod, Subject, Teacher, TeacherAssignment, Timing
 
 
 def main() -> None:
@@ -40,17 +40,30 @@ def main() -> None:
     teacher6 = Teacher("Teacher6", availabilities)
     teacher7 = Teacher("Teacher7", availabilities)
 
+    class_A = Class("A")
+    class_B = Class("B")
+
+    class_periods = (list(map(lambda t: ClassPeriod(class_A, t), periods)) +
+                     list(map(lambda t: ClassPeriod(class_B, t), periods)))
+
     subject_teachers = [
-        TeacherAssignment(teacher1, PHYSICS, 4),
-        TeacherAssignment(teacher2, ENGLISH, 2),
-        TeacherAssignment(teacher3, MATH, 4),
-        TeacherAssignment(teacher4, C, 4),
-        TeacherAssignment(teacher5, DL, 4),
-        TeacherAssignment(teacher6, PST, 3),
-        TeacherAssignment(teacher7, FIT, 3)
+        TeacherAssignment(class_A, teacher1, PHYSICS, 4),
+        TeacherAssignment(class_B, teacher1, PHYSICS, 4),
+        TeacherAssignment(class_A, teacher2, ENGLISH, 2),
+        TeacherAssignment(class_B, teacher2, ENGLISH, 2),
+        TeacherAssignment(class_A, teacher3, MATH, 4),
+        TeacherAssignment(class_B, teacher3, MATH, 4),
+        TeacherAssignment(class_A, teacher4, C, 4),
+        TeacherAssignment(class_B, teacher4, C, 4),
+        TeacherAssignment(class_A, teacher5, DL, 4),
+        TeacherAssignment(class_B, teacher5, DL, 4),
+        TeacherAssignment(class_A, teacher6, PST, 3),
+        TeacherAssignment(class_B, teacher6, PST, 3),
+        TeacherAssignment(class_A, teacher7, FIT, 3),
+        TeacherAssignment(class_B, teacher7, FIT, 3)
     ]
 
-    get_routines(periods, subject_teachers)
+    get_routines(class_periods, subject_teachers)
 
 
 if __name__ == "__main__":

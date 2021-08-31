@@ -2,7 +2,7 @@ import itertools
 
 from typing import List
 
-from .resource import Timing, TeacherAssignment, Routine
+from .resource import ClassPeriod, Timing, TeacherAssignment, Routine
 
 
 def validate_routine(routine: Routine) -> bool:
@@ -16,6 +16,7 @@ def validate_routine(routine: Routine) -> bool:
     Returns:
         True if quality check passes False otherwise
     """
+
     if not any(routine.values()):
         # routine contains no assignments
         return False
@@ -24,13 +25,14 @@ def validate_routine(routine: Routine) -> bool:
         sorted(routine.values(), key=lambda x: x.subject.name if x else ''))
     teacher_assignment: TeacherAssignment
 
+    # compare with input assignments (some assignments may be missing here)
     for teacher_assignment, teacher_assignments in teacher_assignment_group:
         if teacher_assignment and len(list(teacher_assignments)) != teacher_assignment.period_per_week:
             return False
     return True
 
 
-def is_assignment_valid(period: Timing, teacher_assignment: TeacherAssignment, routine: Routine) -> bool:
+def is_assignment_valid(period: ClassPeriod, teacher_assignment: TeacherAssignment, routine: Routine) -> bool:
     """Check whether the teacher assignment is valid for given period
 
     Args:
@@ -44,9 +46,11 @@ def is_assignment_valid(period: Timing, teacher_assignment: TeacherAssignment, r
     teachers_booked_timings: List[Timing] = routine.get_booked_timings(
         teacher_assignment.teacher)
 
-    # assignment for that day, TODO: add check for class as well when multiclass is implemented
+    # assignment for that day
     booked_assignment_days: List[TeacherAssignment] = [
-        assignment for timing, assignment in routine.items() if timing.day == period.day
+        assignment for class_period, assignment in routine.items() if (
+            class_period.period.day == period.period.day and class_period.clas == period.clas
+        )
     ]
 
     teacher_assignments: List[TeacherAssignment] = [
@@ -56,7 +60,7 @@ def is_assignment_valid(period: Timing, teacher_assignment: TeacherAssignment, r
     if len(teacher_assignments) >= teacher_assignment.period_per_week:
         return False
 
-    if not teacher_assignment.teacher.is_available(period):
+    if not teacher_assignment.teacher.is_available(period.period):
         # not available for teacher's shift
         False
 
@@ -64,14 +68,18 @@ def is_assignment_valid(period: Timing, teacher_assignment: TeacherAssignment, r
         # There is one period of this subject already in same day
         return False
 
-    if period in teachers_booked_timings:
+    if period.period in teachers_booked_timings:
         # Teacher is booked for that timing
         return False
 
     return True
 
 
-def generate_routine(routine: Routine, period_index: int, assignments, periods) -> bool:
+def generate_routine(
+    routine: Routine, period_index: int,
+    assignments: List[TeacherAssignment],
+    periods: List[ClassPeriod]
+) -> bool:
     """Generates routine recursively
 
     Args: 
@@ -89,7 +97,11 @@ def generate_routine(routine: Routine, period_index: int, assignments, periods) 
 
     period = periods[period_index]
 
-    for assignment in assignments + [None]:
+    assignments_for_that_class = [
+        assignment for assignment in assignments if assignment.clas == period.clas
+    ]
+
+    for assignment in assignments_for_that_class + [None]:
 
         if (assignment is None) or is_assignment_valid(period, assignment, routine):
             routine[period] = assignment
@@ -99,11 +111,11 @@ def generate_routine(routine: Routine, period_index: int, assignments, periods) 
     return False
 
 
-def get_routines(periods: List[Timing], assignments: List[TeacherAssignment]) -> None:
+def get_routines(periods: List[ClassPeriod], assignments: List[TeacherAssignment]) -> None:
     """Generate routine and print it
 
     Args:
-        periods: List of timings to assign
+        periods: List of ClassPeriods to assign
         assignments: List of TeacherAssignment instances to chose from
     """
 
