@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Hello, Bootstrap Table!</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.css">
+</head>
+
+<body>
+    <div id="tables" class="container">
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
+
+    <script>
+        var routine = [{
+                "class": "A",
+                "days": [{
+                        "day": 0,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 1,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 2,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 3,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 4,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 5,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 6,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    }
+                ],
+                "headings": [{
+                        "field": "day",
+                        "title": "day"
+                    },
+                    {
+                        "field": "07:00-08:30",
+                        "title": "07:00-08:30"
+                    },
+                    {
+                        "field": "08:30-10:00",
+                        "title": "08:30-10:00"
+                    },
+                    {
+                        "field": "11:00-12:30",
+                        "title": "11:00-12:30"
+                    },
+                    {
+                        "field": "12:30-14:00",
+                        "title": "12:30-14:00"
+                    }
+                ]
+            },
+            {
+                "class": "B",
+                "days": [{
+                        "day": 0,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher4 - C",
+                        "12:30-14:00": "Teacher6 - PST"
+                    },
+                    {
+                        "day": 1,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 2,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 3,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher5 - DL",
+                        "11:00-12:30": "Teacher4 - C",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 4,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 5,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 6,
+                        "07:00-08:30": "Teacher1 - PHYSICS",
+                        "08:30-10:00": "Teacher5 - DL",
+                        "11:00-12:30": "Teacher7 - FIT",
+                        "12:30-14:00": ""
+                    }
+                ],
+                "headings": [{
+                        "field": "day",
+                        "title": "day"
+                    },
+                    {
+                        "field": "07:00-08:30",
+                        "title": "07:00-08:30"
+                    },
+                    {
+                        "field": "08:30-10:00",
+                        "title": "08:30-10:00"
+                    },
+                    {
+                        "field": "11:00-12:30",
+                        "title": "11:00-12:30"
+                    },
+                    {
+                        "field": "12:30-14:00",
+                        "title": "12:30-14:00"
+                    }
+                ]
+            },
+            {
+                "class": "C",
+                "days": [{
+                        "day": 0,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher4 - C",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": "Teacher5 - DL"
+                    },
+                    {
+                        "day": 1,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher4 - C",
+                        "12:30-14:00": "Teacher5 - DL"
+                    },
+                    {
+                        "day": 2,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher4 - C",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 3,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher6 - PST",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 4,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher7 - FIT",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 5,
+                        "07:00-08:30": "Teacher3 - Math",
+                        "08:30-10:00": "Teacher5 - DL",
+                        "11:00-12:30": "Teacher7 - FIT",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 6,
+                        "07:00-08:30": "Teacher4 - C",
+                        "08:30-10:00": "Teacher6 - PST",
+                        "11:00-12:30": "Teacher5 - DL",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    }
+                ],
+                "headings": [{
+                        "field": "day",
+                        "title": "day"
+                    },
+                    {
+                        "field": "07:00-08:30",
+                        "title": "07:00-08:30"
+                    },
+                    {
+                        "field": "08:30-10:00",
+                        "title": "08:30-10:00"
+                    },
+                    {
+                        "field": "11:00-12:30",
+                        "title": "11:00-12:30"
+                    },
+                    {
+                        "field": "12:30-14:00",
+                        "title": "12:30-14:00"
+                    }
+                ]
+            },
+            {
+                "class": "D",
+                "days": [{
+                        "day": 0,
+                        "07:00-08:30": "Teacher4 - C",
+                        "08:30-10:00": "Teacher2 - English",
+                        "11:00-12:30": "Teacher1 - PHYSICS",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 1,
+                        "07:00-08:30": "Teacher4 - C",
+                        "08:30-10:00": "Teacher5 - DL",
+                        "11:00-12:30": "Teacher1 - PHYSICS",
+                        "12:30-14:00": "Teacher6 - PST"
+                    },
+                    {
+                        "day": 2,
+                        "07:00-08:30": "Teacher4 - C",
+                        "08:30-10:00": "Teacher5 - DL",
+                        "11:00-12:30": "Teacher7 - FIT",
+                        "12:30-14:00": "Teacher6 - PST"
+                    },
+                    {
+                        "day": 3,
+                        "07:00-08:30": "Teacher4 - C",
+                        "08:30-10:00": "Teacher3 - Math",
+                        "11:00-12:30": "Teacher7 - FIT",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 4,
+                        "07:00-08:30": "Teacher5 - DL",
+                        "08:30-10:00": "Teacher6 - PST",
+                        "11:00-12:30": "Teacher3 - Math",
+                        "12:30-14:00": ""
+                    },
+                    {
+                        "day": 5,
+                        "07:00-08:30": "Teacher5 - DL",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher3 - Math",
+                        "12:30-14:00": "Teacher7 - FIT"
+                    },
+                    {
+                        "day": 6,
+                        "07:00-08:30": "Teacher2 - English",
+                        "08:30-10:00": "Teacher1 - PHYSICS",
+                        "11:00-12:30": "Teacher3 - Math",
+                        "12:30-14:00": ""
+                    }
+                ],
+                "headings": [{
+                        "field": "day",
+                        "title": "day"
+                    },
+                    {
+                        "field": "07:00-08:30",
+                        "title": "07:00-08:30"
+                    },
+                    {
+                        "field": "08:30-10:00",
+                        "title": "08:30-10:00"
+                    },
+                    {
+                        "field": "11:00-12:30",
+                        "title": "11:00-12:30"
+                    },
+                    {
+                        "field": "12:30-14:00",
+                        "title": "12:30-14:00"
+                    }
+                ]
+            }
+        ]
+        routine.forEach((element) => {
+            var table = document.createElement('table');
+            var header = document.createElement("h3")
+
+            header.innerHTML = element.class
+            // table.setAttribute('id', `id_table-${element.class}`)
+            $(table).bootstrapTable({
+                columns: element.headings,
+                data: element.days
+            })
+            $(header).appendTo("#tables")
+            $(table).appendTo("#tables")
+
+        })
+    </script>
+</body>
+
+</html>
