@@ -42,25 +42,48 @@ def main() -> None:
 
     class_A = Class("A")
     class_B = Class("B")
+    class_C = Class("C")
+    class_D = Class("D")
 
     class_periods = (list(map(lambda t: ClassPeriod(class_A, t), periods)) +
-                     list(map(lambda t: ClassPeriod(class_B, t), periods)))
+                     list(map(lambda t: ClassPeriod(class_B, t), periods)) +
+                     list(map(lambda t: ClassPeriod(class_C, t), periods)) +
+                     list(map(lambda t: ClassPeriod(class_D, t), periods))
+                     )
 
     subject_teachers = [
         TeacherAssignment(class_A, teacher1, PHYSICS, 4),
-        TeacherAssignment(class_B, teacher1, PHYSICS, 4),
         TeacherAssignment(class_A, teacher2, ENGLISH, 2),
-        TeacherAssignment(class_B, teacher2, ENGLISH, 2),
         TeacherAssignment(class_A, teacher3, MATH, 4),
-        TeacherAssignment(class_B, teacher3, MATH, 4),
         TeacherAssignment(class_A, teacher4, C, 4),
-        TeacherAssignment(class_B, teacher4, C, 4),
         TeacherAssignment(class_A, teacher5, DL, 4),
-        TeacherAssignment(class_B, teacher5, DL, 4),
         TeacherAssignment(class_A, teacher6, PST, 3),
-        TeacherAssignment(class_B, teacher6, PST, 3),
         TeacherAssignment(class_A, teacher7, FIT, 3),
-        TeacherAssignment(class_B, teacher7, FIT, 3)
+
+        TeacherAssignment(class_B, teacher1, PHYSICS, 4),
+        TeacherAssignment(class_B, teacher2, ENGLISH, 2),
+        TeacherAssignment(class_B, teacher3, MATH, 4),
+        TeacherAssignment(class_B, teacher4, C, 4),
+        TeacherAssignment(class_B, teacher5, DL, 4),
+        TeacherAssignment(class_B, teacher6, PST, 3),
+        TeacherAssignment(class_B, teacher7, FIT, 3),
+
+        TeacherAssignment(class_C, teacher1, PHYSICS, 4),
+        TeacherAssignment(class_C, teacher2, ENGLISH, 2),
+        TeacherAssignment(class_C, teacher3, MATH, 4),
+        TeacherAssignment(class_C, teacher4, C, 4),
+        TeacherAssignment(class_C, teacher5, DL, 4),
+        TeacherAssignment(class_C, teacher6, PST, 3),
+        TeacherAssignment(class_C, teacher7, FIT, 3),
+
+        TeacherAssignment(class_D, teacher1, PHYSICS, 4),
+        TeacherAssignment(class_D, teacher2, ENGLISH, 2),
+        TeacherAssignment(class_D, teacher3, MATH, 4),
+        TeacherAssignment(class_D, teacher4, C, 4),
+        TeacherAssignment(class_D, teacher5, DL, 4),
+        TeacherAssignment(class_D, teacher6, PST, 3),
+        TeacherAssignment(class_D, teacher7, FIT, 3),
+
     ]
 
     get_routines(class_periods, subject_teachers)

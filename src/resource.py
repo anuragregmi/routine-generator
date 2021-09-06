@@ -161,6 +161,9 @@ class Routine(MutableMapping):
         self.store[key] = value
 
     def __delitem__(self, key: ClassPeriod) -> None:
+        assignment: TeacherAssignment = self.store[key]
+        if assignment:
+            self.teacher_booking.get(assignment.teacher, []).remove(key.period)
         del self.store[key]
 
     def __iter__(self) -> Iterator:
@@ -180,7 +183,8 @@ class Routine(MutableMapping):
         """
         return self.teacher_booking.get(teacher, [])
 
-    def __str__(self):
+    def console_out(self):
+        """returns string to print on console"""
         daywise: itertools.groupby = itertools.groupby(
             sorted(self.keys(), key=lambda x: x.period.day), key=lambda x: x.period.day)
         output: List[str] = []
@@ -196,3 +200,31 @@ class Routine(MutableMapping):
             )
 
         return "\n".join(output)
+
+    def get_json(self):
+        classwise: itertools.groupby = itertools.groupby(
+            sorted(
+                self.keys(), key=lambda x: x.clas.name
+            ), key=lambda x: x.clas.name)
+
+        classes: List[dict] = list()
+
+        for clas, periods in classwise:
+            daywise: itertools.groupby = itertools.groupby(
+                sorted(periods, key=lambda x: x.period.day), key=lambda x: x.period.day)
+
+            days: List[dict] = list()
+
+            for day, periods_ in daywise:
+                days.append({
+                    "day": day,
+                    **{f"{p.period.start}-{p.period.end}": str(self[p] or '') for p in periods_}
+                })
+
+            classes.append({
+                "class": clas,
+                "days": days,
+                "headings": list(map(lambda x: {"field": x, "title": x}, days[0].keys()))
+            })
+
+        return classes
