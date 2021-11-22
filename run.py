@@ -1,8 +1,10 @@
 import dataclasses
+import json
+
 from typing import List
 
 from src.utils import get_routines
-from src.resource import Class, ClassPeriod, Subject, Teacher, TeacherAssignment, Timing
+from src.resource import Class, ClassPeriod, Routine, Subject, Teacher, TeacherAssignment, Timing
 
 
 def main() -> None:
@@ -86,7 +88,10 @@ def main() -> None:
 
     ]
 
-    get_routines(class_periods, subject_teachers)
+    routine: Routine = get_routines(class_periods, subject_teachers)
+    if routine:
+        with open('routine.json', 'w') as output_file:
+            json.dump(routine.get_json(), output_file)
 
 
 if __name__ == "__main__":

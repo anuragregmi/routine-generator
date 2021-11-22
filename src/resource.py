@@ -183,7 +183,7 @@ class Routine(MutableMapping):
         """
         return self.teacher_booking.get(teacher, [])
 
-    def console_out(self):
+    def console_out(self) -> str:
         """returns string to print on console"""
         daywise: itertools.groupby = itertools.groupby(
             sorted(self.keys(), key=lambda x: x.period.day), key=lambda x: x.period.day)
@@ -201,7 +201,8 @@ class Routine(MutableMapping):
 
         return "\n".join(output)
 
-    def get_json(self):
+    def get_json(self) -> List[dict]:
+        """Returns JSON serializable routine"""
         classwise: itertools.groupby = itertools.groupby(
             sorted(
                 self.keys(), key=lambda x: x.clas.name

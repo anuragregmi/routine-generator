@@ -1,6 +1,6 @@
 import itertools
 
-from typing import List
+from typing import List, Union
 
 from .resource import ClassPeriod, Timing, TeacherAssignment, Routine
 
@@ -14,7 +14,7 @@ class RoutineGenerator:
         self.assignments: List[TeacherAssignment] = assignments
         self.periods: List[TeacherAssignment] = periods
 
-        self.routine = Routine()
+        self.routine: Routine = Routine()
 
     def validate_routine(self) -> bool:
         """Check valitidy of routine
@@ -129,7 +129,10 @@ class RoutineGenerator:
         return False
 
 
-def get_routines(periods: List[ClassPeriod], assignments: List[TeacherAssignment]) -> None:
+def get_routines(
+    periods: List[ClassPeriod],
+    assignments: List[TeacherAssignment]
+) -> Union[Routine, None]:
     """Generate routine and print it
 
     Args:
@@ -139,6 +142,6 @@ def get_routines(periods: List[ClassPeriod], assignments: List[TeacherAssignment
     generator = RoutineGenerator(assignments, periods)
 
     if generator.generate_routine():
-        print(generator.routine.get_json())
+        return generator.routine
     else:
-        print("no solutions found")
+        return None
