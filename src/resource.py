@@ -62,6 +62,14 @@ class Subject:
 
 @dataclass(frozen=True)
 class Class:
+    """Represents a class room
+
+    Unit class where subjects and teachers are assigned.
+    For eg. (Grade 5 Section A) is a class
+
+    Attributes: 
+        name: Name of a class
+    """
     name: str
 
     def __str__(self):
@@ -112,6 +120,12 @@ class Teacher:
 
 @dataclass(frozen=True)
 class ClassPeriod:
+    """A period assigned to a class
+
+    Attributes: 
+        clas: Class object
+        period: Timing assigned to the class
+    """
     clas: Class
     period: Timing
 
