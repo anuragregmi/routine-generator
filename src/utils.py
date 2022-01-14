@@ -39,7 +39,7 @@ class RoutineGenerator:
             teacher_assignment_count[teacher_assignment] = len(
                 list(teacher_assignments))
 
-        if any(
+        return not any(
             map(
                 lambda assignment: (
                     teacher_assignment_count.get(
@@ -48,9 +48,7 @@ class RoutineGenerator:
                 ),
                 self.assignments
             )
-        ):
-            return False
-        return True
+        )
 
     def is_assignment_valid(self, period: ClassPeriod, teacher_assignment: TeacherAssignment) -> bool:
         """Check whether the teacher assignment is valid for given period

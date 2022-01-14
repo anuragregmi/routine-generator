@@ -100,13 +100,10 @@ class Teacher:
         """
         available_timing: Timing
 
-        for available_timing in self.availabilities:
-            if (
+        return any((
                 timing.start_datetime >= available_timing.start_datetime and
                 timing.end_datetime <= available_timing.end_datetime
-            ):
-                return True
-        return False
+            ) for available_timing in self.availabilities)
 
     def __hash__(self):
         return hash(f"name-{self.name}")
@@ -207,11 +204,17 @@ class Routine(MutableMapping):
             periods = list(periods_)
             string = "%-5s |" + ("%-50s\t|" * len(periods))
             output.append(
-                string % tuple(
-                    [str(day)]
-                    + [f"{str(self[period])} [{period}]" for period in periods]
+                (
+                    string
+                    % tuple(
+                        (
+                            [str(day)]
+                            + [f'{self[period]} [{period}]' for period in periods]
+                        )
+                    )
                 )
             )
+
 
         return "\n".join(output)
 
