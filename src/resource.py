@@ -101,9 +101,9 @@ class Teacher:
         available_timing: Timing
 
         return any((
-                timing.start_datetime >= available_timing.start_datetime and
-                timing.end_datetime <= available_timing.end_datetime
-            ) for available_timing in self.availabilities)
+            timing.start_datetime >= available_timing.start_datetime and
+            timing.end_datetime <= available_timing.end_datetime
+        ) for available_timing in self.availabilities)
 
     def __hash__(self):
         return hash(f"name-{self.name}")
@@ -158,8 +158,8 @@ class Routine(MutableMapping):
     """
 
     def __init__(self, *args, **kwargs) -> None:
-        self.store: Dict[ClassPeriod, TeacherAssignment] = dict()
-        self.teacher_booking: Dict[Teacher, List[Timing]] = dict()
+        self.store: Dict[ClassPeriod, TeacherAssignment] = {}
+        self.teacher_booking: Dict[Teacher, List[Timing]] = {}
         self.store.update(dict(*args, **kwargs))
 
     def __getitem__(self, key: ClassPeriod) -> Union[TeacherAssignment, None]:
@@ -215,7 +215,6 @@ class Routine(MutableMapping):
                 )
             )
 
-
         return "\n".join(output)
 
     def get_json(self) -> List[dict]:
@@ -225,13 +224,13 @@ class Routine(MutableMapping):
                 self.keys(), key=lambda x: x.clas.name
             ), key=lambda x: x.clas.name)
 
-        classes: List[dict] = list()
+        classes: List[dict] = []
 
         for clas, periods in classwise:
             daywise: itertools.groupby = itertools.groupby(
                 sorted(periods, key=lambda x: x.period.day), key=lambda x: x.period.day)
 
-            days: List[dict] = list()
+            days: List[dict] = []
 
             for day, periods_ in daywise:
                 days.append({

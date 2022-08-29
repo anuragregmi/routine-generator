@@ -24,7 +24,7 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
     </script>
     <script src="https://unpkg.com/bootstrap-table@1.18.3/dist/bootstrap-table.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.21.1/full/pyodide.js"></script>
     <script>
         var routine = [{
                 "class": "A",
@@ -337,6 +337,24 @@
             $(table).appendTo("#tables")
 
         })
+    </script>
+
+    <script>
+        (async function () {
+            let pyodide = await loadPyodide();
+
+            let response = await fetch("routine_generator.zip")
+            let buffer = await response.arrayBuffer();
+            await pyodide.unpackArchive(buffer, "zip");
+            pyodide.runPython(`
+                import os
+                import run
+
+                run.main()
+                print(os.listdir(os.curdir))
+            `)
+
+        })()
     </script>
 </body>
 
